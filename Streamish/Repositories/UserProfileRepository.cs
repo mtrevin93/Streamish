@@ -32,26 +32,26 @@ namespace Streamish.Repositories
                     var reader = cmd.ExecuteReader();
 
                     var userProfiles = new List<UserProfile>();
-                    while (reader.Read())
-                    {
-                        userProfiles.Add(new UserProfile()
-                        {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            Title = DbUtils.GetString(reader, "Title"),
-                            Description = DbUtils.GetString(reader, "Description"),
-                            Url = DbUtils.GetString(reader, "Url"),
-                            DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            UserProfile = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                Name = DbUtils.GetString(reader, "Name"),
-                                Email = DbUtils.GetString(reader, "Email"),
-                                DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
-                                ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
-                            },
-                        });
-                    }
+                    //while (reader.Read())
+                    //{
+                    //    userProfiles.Add(new UserProfile()
+                    //    {
+                    //        Id = DbUtils.GetInt(reader, "Id"),
+                    //        Title = DbUtils.GetString(reader, "Title"),
+                    //        Description = DbUtils.GetString(reader, "Description"),
+                    //        Url = DbUtils.GetString(reader, "Url"),
+                    //        DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+                    //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                    //        UserProfile = new UserProfile()
+                    //        {
+                    //            Id = DbUtils.GetInt(reader, "UserProfileId"),
+                    //            Name = DbUtils.GetString(reader, "Name"),
+                    //            Email = DbUtils.GetString(reader, "Email"),
+                    //            DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                    //            ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                    //        },
+                    //    });
+                    //}
 
                     reader.Close();
 
@@ -81,25 +81,25 @@ namespace Streamish.Repositories
 
                     UserProfile userProfile = null;
                     if (reader.Read())
-                    {
-                        userProfile = new UserProfile()
-                        {
-                            Id = id,
-                            Title = DbUtils.GetString(reader, "Title"),
-                            Description = DbUtils.GetString(reader, "Description"),
-                            DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                            Url = DbUtils.GetString(reader, "Url"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            UserProfile = new UserProfile
-                            {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                Name = DbUtils.GetString(reader, "Name"),
-                                Email = DbUtils.GetString(reader, "Email"),
-                                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                                DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
-                            }
-                        };
-                    }
+                    //{
+                    //    userProfile = new UserProfile()
+                    //    {
+                    //        Id = id,
+                    //        Title = DbUtils.GetString(reader, "Title"),
+                    //        Description = DbUtils.GetString(reader, "Description"),
+                    //        DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+                    //        Url = DbUtils.GetString(reader, "Url"),
+                    //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                    //        UserProfile = new UserProfile
+                    //        {
+                    //            Id = DbUtils.GetInt(reader, "Id"),
+                    //            Name = DbUtils.GetString(reader, "Name"),
+                    //            Email = DbUtils.GetString(reader, "Email"),
+                    //            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                    //            DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+                    //        }
+                    //    };
+                    //}
 
                     reader.Close();
 
@@ -112,21 +112,21 @@ namespace Streamish.Repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        INSERT INTO UserProfile (Title, Description, DateCreated, Url, UserProfileId)
-                        OUTPUT INSERTED.ID
-                        VALUES (@Title, @Description, @DateCreated, @Url, @UserProfileId)";
+                using (var cmd = conn.CreateCommand()) ;
+            //    {
+            //        cmd.CommandText = @"
+            //            INSERT INTO UserProfile (Title, Description, DateCreated, Url, UserProfileId)
+            //            OUTPUT INSERTED.ID
+            //            VALUES (@Title, @Description, @DateCreated, @Url, @UserProfileId)";
 
-                    DbUtils.AddParameter(cmd, "@Title", userProfile.Title);
-                    DbUtils.AddParameter(cmd, "@Description", userProfile.Description);
-                    DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
-                    DbUtils.AddParameter(cmd, "@Url", userProfile.Url);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", userProfile.UserProfileId);
+                    //        DbUtils.AddParameter(cmd, "@Title", userProfile.Title);
+                    //        DbUtils.AddParameter(cmd, "@Description", userProfile.Description);
+                    //        DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
+                    //        DbUtils.AddParameter(cmd, "@Url", userProfile.Url);
+                    //        DbUtils.AddParameter(cmd, "@UserProfileId", userProfile.UserProfileId);
 
-                    userProfile.Id = (int)cmd.ExecuteScalar();
-                }
+                    //        userProfile.Id = (int)cmd.ExecuteScalar();
+                    //    }
             }
         }
 
@@ -137,26 +137,26 @@ namespace Streamish.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        UPDATE UserProfile
-                           SET Title = @Title,
-                               Description = @Description,
-                               DateCreated = @DateCreated,
-                               Url = @Url,
-                               UserProfileId = @UserProfileId
-                         WHERE Id = @Id";
+                    //        cmd.CommandText = @"
+                    //            UPDATE UserProfile
+                    //               SET Title = @Title,
+                    //                   Description = @Description,
+                    //                   DateCreated = @DateCreated,
+                    //                   Url = @Url,
+                    //                   UserProfileId = @UserProfileId
+                    //             WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@Title", userProfile.Title);
-                    DbUtils.AddParameter(cmd, "@Description", userProfile.Description);
-                    DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
-                    DbUtils.AddParameter(cmd, "@Url", userProfile.Url);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", userProfile.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
+                    //        DbUtils.AddParameter(cmd, "@Title", userProfile.Title);
+                    //        DbUtils.AddParameter(cmd, "@Description", userProfile.Description);
+                    //        DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
+                    //        DbUtils.AddParameter(cmd, "@Url", userProfile.Url);
+                    //        DbUtils.AddParameter(cmd, "@UserProfileId", userProfile.UserProfileId);
+                    //        DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
 
-                    cmd.ExecuteNonQuery();
+                    //        cmd.ExecuteNonQuery();
                 }
             }
-        }
+            }
 
         public void Delete(int id)
         {
