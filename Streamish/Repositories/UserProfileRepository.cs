@@ -67,21 +67,18 @@ namespace Streamish.Repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand()) ;
-            //    {
-            //        cmd.CommandText = @"
-            //            INSERT INTO UserProfile (Title, Description, DateCreated, Url, UserProfileId)
-            //            OUTPUT INSERTED.ID
-            //            VALUES (@Title, @Description, @DateCreated, @Url, @UserProfileId)";
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO UserProfile (Name, Email, ImageUrl, DateCreated)
+                        VALUES (@name, @email, @imageUrl, SYSDATETIME() )";
 
-                    //        DbUtils.AddParameter(cmd, "@Title", userProfile.Title);
-                    //        DbUtils.AddParameter(cmd, "@Description", userProfile.Description);
-                    //        DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
-                    //        DbUtils.AddParameter(cmd, "@Url", userProfile.Url);
-                    //        DbUtils.AddParameter(cmd, "@UserProfileId", userProfile.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@name", userProfile.Name);
+                    DbUtils.AddParameter(cmd, "@email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@imageUrl", userProfile.ImageUrl);
 
-                    //        userProfile.Id = (int)cmd.ExecuteScalar();
-                    //    }
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
