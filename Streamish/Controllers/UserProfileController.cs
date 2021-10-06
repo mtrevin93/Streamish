@@ -48,7 +48,7 @@ namespace Streamish.Controllers
             }
 
             _userProfileRepository.Update(userProfile);
-            return NoContent();
+            return Ok(userProfile);
         }
 
         [HttpDelete("{id}")]
