@@ -31,6 +31,45 @@ namespace Streamish.Tests
             Assert.Equal(videoCount, actualVideos.Count);
             Assert.Equal(videos, actualVideos);
         }
+        [Fact]
+        public void Search_Result_Is_Descending_When_True()
+        {
+            //Arrange
+            var videoCount = 20;
+            var videos = CreateTestVideos(videoCount);
+            var repo = new InMemoryVideoRepository(videos);
+            var controller = new VideoController(repo);
+
+            //Act
+            var result = controller.Search("", true);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var actualVideos = Assert.IsType<List<Video>>(okResult.Value);
+
+            Assert.Equal(videoCount, actualVideos.Count);
+            Assert.Equal(videos.OrderByDescending(v => v.DateCreated).ToList(), actualVideos);
+        }
+
+        [Fact]
+        public void Search_Result_Is_Ascending_When_False()
+        {
+            //Arrange
+            var videoCount = 20;
+            var videos = CreateTestVideos(videoCount);
+            var repo = new InMemoryVideoRepository(videos);
+            var controller = new VideoController(repo);
+
+            //Act
+            var result = controller.Search("", false);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var actualVideos = Assert.IsType<List<Video>>(okResult.Value);
+
+            Assert.Equal(videoCount, actualVideos.Count);
+            Assert.Equal(videos.OrderBy(v => v.DateCreated).ToList(), actualVideos);
+        }
 
         [Fact]
         public void Get_By_Id_Returns_NotFound_When_Given_Unknown_id()
@@ -178,6 +217,7 @@ namespace Streamish.Tests
             var videoFromDb = repo.InternalData.FirstOrDefault(p => p.Id == testVideoId);
             Assert.Null(videoFromDb);
         }
+
 
         private List<Video> CreateTestVideos(int count)
         {
