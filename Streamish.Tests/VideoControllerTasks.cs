@@ -70,6 +70,42 @@ namespace Streamish.Tests
             Assert.Equal(videoCount, actualVideos.Count);
             Assert.Equal(videos.OrderBy(v => v.DateCreated).ToList(), actualVideos);
         }
+        [Fact]
+        public void Search_Criterion_Filters_Title()
+        {
+            //Arrange
+            var videoCount = 20;
+            var videos = CreateTestVideos(videoCount);
+            var repo = new InMemoryVideoRepository(videos);
+            var controller = new VideoController(repo);
+
+            //Act
+            var result = controller.Search("le 5", true);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var actualVideos = Assert.IsType<List<Video>>(okResult.Value);
+
+            Assert.Equal(videos.Where(v => v.Title.Contains("le 5")).Count(), actualVideos.Count);
+        }
+        [Fact]
+        public void Search_Criterion_Filters_Description()
+        {
+            //Arrange
+            var videoCount = 20;
+            var videos = CreateTestVideos(videoCount);
+            var repo = new InMemoryVideoRepository(videos);
+            var controller = new VideoController(repo);
+
+            //Act
+            var result = controller.Search("ption 5", true);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var actualVideos = Assert.IsType<List<Video>>(okResult.Value);
+
+            Assert.Equal(videos.Where(v => v.Description.Contains("ption 5")).Count(), actualVideos.Count);
+        }
 
         [Fact]
         public void Get_By_Id_Returns_NotFound_When_Given_Unknown_id()
