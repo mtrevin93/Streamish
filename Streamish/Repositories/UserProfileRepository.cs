@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Streamish.Models;
 using Streamish.Utils;
@@ -18,40 +19,15 @@ namespace Streamish.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-               SELECT v.Id, v.Title, v.Description, v.Url, v.DateCreated, v.UserProfileId,
-
-                      up.Name, up.Email, up.DateCreated AS UserProfileDateCreated,
-                      up.ImageUrl AS UserProfileImageUrl
-                        
-                 FROM UserProfile v 
-                      JOIN UserProfile up ON v.UserProfileId = up.Id
-             ORDER BY DateCreated
-            ";
+                    cmd.CommandText = @"SELECT * FROM UserProfile";
 
                     var reader = cmd.ExecuteReader();
 
                     var userProfiles = new List<UserProfile>();
-                    //while (reader.Read())
-                    //{
-                    //    userProfiles.Add(new UserProfile()
-                    //    {
-                    //        Id = DbUtils.GetInt(reader, "Id"),
-                    //        Title = DbUtils.GetString(reader, "Title"),
-                    //        Description = DbUtils.GetString(reader, "Description"),
-                    //        Url = DbUtils.GetString(reader, "Url"),
-                    //        DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                    //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                    //        UserProfile = new UserProfile()
-                    //        {
-                    //            Id = DbUtils.GetInt(reader, "UserProfileId"),
-                    //            Name = DbUtils.GetString(reader, "Name"),
-                    //            Email = DbUtils.GetString(reader, "Email"),
-                    //            DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
-                    //            ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
-                    //        },
-                    //    });
-                    //}
+                    while (reader.Read())
+                    {
+                        userProfiles.Add(GetUserProfileFromReader(reader));
+                    }
 
                     reader.Close();
 
@@ -170,6 +146,17 @@ namespace Streamish.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+        
+        private UserProfile GetUserProfileFromReader(SqlDataReader reader)
+        {
+            return new UserProfile()
+            {
+                Name = DbUtils.GetString(reader, "Name"),
+                Email = DbUtils.GetString(reader, "Email"),
+                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+            };
         }
     }
 }
