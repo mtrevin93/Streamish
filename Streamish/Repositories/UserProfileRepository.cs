@@ -43,39 +43,18 @@ namespace Streamish.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                          SELECT v.Title, v.Description, v.Url, v.DateCreated, v.UserProfileId, 
-                          up.Name, up.Email, up.ImageUrl, up.DateCreated, up.Id
-                            FROM UserProfile v
-                            JOIN UserProfile up
-                            ON v.UserProfileId = up.Id
-                           WHERE v.Id = @Id";
+                    cmd.CommandText = @"SELECT * FROM UserProfile WHERE Id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
 
                     UserProfile userProfile = null;
+
                     if (reader.Read())
-                    //{
-                    //    userProfile = new UserProfile()
-                    //    {
-                    //        Id = id,
-                    //        Title = DbUtils.GetString(reader, "Title"),
-                    //        Description = DbUtils.GetString(reader, "Description"),
-                    //        DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                    //        Url = DbUtils.GetString(reader, "Url"),
-                    //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                    //        UserProfile = new UserProfile
-                    //        {
-                    //            Id = DbUtils.GetInt(reader, "Id"),
-                    //            Name = DbUtils.GetString(reader, "Name"),
-                    //            Email = DbUtils.GetString(reader, "Email"),
-                    //            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                    //            DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
-                    //        }
-                    //    };
-                    //}
+                    { 
+                        userProfile = GetUserProfileFromReader(reader);
+                    }
 
                     reader.Close();
 
