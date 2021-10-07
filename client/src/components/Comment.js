@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
 
-const Video = ({ video }) => {
+const Comment = ({ comment }) => {
   return (
     <Card >
       <p className="text-left px-2">Posted by: {video.userProfile.name}</p>
@@ -18,10 +18,6 @@ const Video = ({ video }) => {
         </p>
         <p>{video.description}</p>
       </CardBody>
-        <div> {video.map(v => 
-        <Comment comment = {video.Comment} key = {video.id} />
-        )}
-        </div>
     </Card>
   );
 };

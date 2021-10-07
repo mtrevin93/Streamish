@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Video from './Video';
 import { getAllVideos } from "../modules/videoManager";
 
 const VideoList = () => {
