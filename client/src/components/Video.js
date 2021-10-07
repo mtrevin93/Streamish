@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
+import {  CommentList } from "./CommentList";
 
 const Video = ({ video }) => {
   return (
@@ -17,11 +18,8 @@ const Video = ({ video }) => {
           <strong>{video.title}</strong>
         </p>
         <p>{video.description}</p>
+    {video.comments? <CommentList comments = {video.comments}  /> : ""}
       </CardBody>
-        <div> {video.map(v => 
-        <Comment comment = {video.Comment} key = {video.id} />
-        )}
-        </div>
     </Card>
   );
 };
