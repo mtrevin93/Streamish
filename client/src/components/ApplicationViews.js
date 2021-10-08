@@ -7,7 +7,6 @@ const ApplicationViews = () => {
   return (
     <Switch>
       <Route path="/" exact>
-        <VideoSearch />
         <VideoList />
       </Route>
 

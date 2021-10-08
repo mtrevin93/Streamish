@@ -1,12 +1,14 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import ApplicationViews from "./components/ApplicationViews";
-import VideoList from "./components/VideoList";
 
 function App() {
   return (
     <div className="App">
-      <ApplicationViews />
+      <Router>
+        <ApplicationViews />
+      </Router>
     </div>
   );
 }
