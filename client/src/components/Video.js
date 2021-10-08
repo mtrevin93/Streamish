@@ -6,7 +6,12 @@ import {  CommentList } from "./CommentList";
 const Video = ({ video }) => {
   return (
     <Card >
-      <p className="text-left px-2">Posted by: {video.userProfile?.name}</p>
+      {video.UserProfile?
+      "" :  
+      <p className="text-left px-2">Posted by:   
+      <Link to={`/users/${video.userProfileId}`}className = "link">{video.userProfile?.name} </Link>
+      </p>
+      }
       <CardBody>
         <iframe className="video"
           src={video.url}
@@ -28,3 +33,8 @@ const Video = ({ video }) => {
 };
 
 export default Video;
+
+
+<Link to="/" className="navbar-brand">
+StreamISH
+</Link>
