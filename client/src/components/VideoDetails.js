@@ -5,6 +5,7 @@ import Video from "./Video";
 import { getVideo } from "../modules/videoManager";
 
 const VideoDetails = () => {
+    
   const [video, setVideo] = useState();
   const { id } = useParams();
 

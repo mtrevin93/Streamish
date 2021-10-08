@@ -6,7 +6,7 @@ import {  CommentList } from "./CommentList";
 const Video = ({ video }) => {
   return (
     <Card >
-      <p className="text-left px-2">Posted by: {video.userProfile.name}</p>
+      <p className="text-left px-2">Posted by: {video.userProfile?.name}</p>
       <CardBody>
         <iframe className="video"
           src={video.url}
