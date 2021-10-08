@@ -10,6 +10,11 @@ export const getAllVideosWithComments = () => {
     .then((res) => res.json())
 };
 
+export const searchVideos = (query, boolean) => {
+  return fetch(`${baseUrl}/search?q=${query}&sortDesc=${boolean}`)
+    .then((res) => res.json())
+};
+
 export const addVideo = (video) => {
   return fetch(baseUrl, {
     method: "POST",
