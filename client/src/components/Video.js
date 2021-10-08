@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
 import {  CommentList } from "./CommentList";
 
@@ -15,7 +16,9 @@ const Video = ({ video }) => {
           allowFullScreen />
 
         <p>
+        <Link to={`/videos/${video.id}`}>
           <strong>{video.title}</strong>
+        </Link>
         </p>
         <p>{video.description}</p>
     {video.comments? <CommentList comments = {video.comments}  /> : ""}

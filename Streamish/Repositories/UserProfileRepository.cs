@@ -62,6 +62,55 @@ namespace Streamish.Repositories
                 }
             }
         }
+
+        public UserProfile GetByIdWithVideos(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT up.Id AS UserProfileId, up.Name, up.Email, up.ImageUrl, up.DateCreated,
+                                        v.Title, v.Description, v.Url, v.DateCreated, v.UserProfileId
+                                        FROM UserProfile up
+                                        LEFT JOIN Video v
+                                        ON v.UserProfileId = up.Id 
+                                        WHERE UserProfileId = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    UserProfile userProfile = null;
+
+                    while (reader.Read())
+                    {
+                        if(userProfile == null)
+                        {
+                            userProfile = GetUserProfileFromReader(reader);
+                            userProfile.Videos = new List<Video>();
+                        }
+
+                        if(DbUtils.IsNotDbNull(reader, "Title"))
+                        {
+                            Video v = new Video
+                            {
+                                Title = DbUtils.GetString(reader, "Title"),
+                                Description = DbUtils.GetString(reader, "Description"),
+                                Url = DbUtils.GetString(reader, "Url"),
+                                DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+                            };
+                            userProfile.Videos.Add(v);
+                        }
+                    }
+
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
+
         public void Add(UserProfile userProfile)
         {
             using (var conn = Connection)
