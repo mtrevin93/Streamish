@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { addVideo } from "../modules/videoManager";
 import { useHistory } from "react-router-dom";
 
-const VideoForm = () => {
+const VideoForm = ({getVideos}) => {
 
     const [ video, setVideo ] = useState({
         description : "",
@@ -15,6 +15,15 @@ const VideoForm = () => {
         const newVideo = {...video};
         newVideo[event.target.id] = event.target.value;
         setVideo(newVideo);
+
+    }
+
+    const handleSubmitVideo = () => {
+        
+        addVideo(video)
+        .then(getVideos())
+        const resetVideo = { description: "", url: "", title:"" }
+        setVideo(resetVideo)
 
     }
 
@@ -37,8 +46,7 @@ return(
                 <input type="youtubeUrl" class="form-control" id="url" placeholder="Youtube Url" required value={video.url} onChange={handleInput}/>
             </div>
             <button type="submit" class="btn btn-primary" onClick={event => {
-                addVideo(video)
-                .then(() => history.go(0))
+                handleSubmitVideo()
             }}>Submit</button>
         </div>
     </div>

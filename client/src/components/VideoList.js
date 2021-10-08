@@ -12,12 +12,12 @@ const VideoList = () => {
   };
 
   useEffect(() => {
-    getVideos();
+    getVideos()
   }, []);
 
   return (
     <div className="container">
-      <VideoForm/>
+      <VideoForm getVideos={getVideos}/>
       <VideoSearch setVideos ={setVideos}/>
       <div className="row justify-content-center">
         {videos.map((video) => (
