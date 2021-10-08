@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { addVideo } from "../modules/videoManager";
 import { useHistory } from "react-router-dom";
 
-const VideoForm = ({getVideos}) => {
+//Pass getVideos as props so that form can call function to refresh page after adding video
+const VideoForm = () => {
 
     const [ video, setVideo ] = useState({
         description : "",
@@ -17,13 +18,14 @@ const VideoForm = ({getVideos}) => {
         setVideo(newVideo);
 
     }
-
+//Handle Submit video form to getvideos & reset state to blank the input fields
     const handleSubmitVideo = () => {
         
         addVideo(video)
-        .then(getVideos())
-        const resetVideo = { description: "", url: "", title:"" }
-        setVideo(resetVideo)
+        // .then(getVideos())
+        .then(history.push("/"))
+        // const resetVideo = { description: "", url: "", title:"" }
+        // setVideo(resetVideo)
 
     }
 

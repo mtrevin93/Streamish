@@ -14,10 +14,9 @@ const VideoList = () => {
   useEffect(() => {
     getVideos()
   }, []);
-
+//Pass set Videos so that videoSearch can effect state that is displayed here. Note that the search function does not return comments, but the original getVideos DOES get with comments.
   return (
     <div className="container">
-      <VideoForm getVideos={getVideos}/>
       <VideoSearch setVideos ={setVideos}/>
       <div className="row justify-content-center">
         {videos.map((video) => (
