@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Video from './Video';
+import { VideoForm } from "./VideoForm"
 import { VideoSearch } from "./VideoSearch";
 import { getAllVideosWithComments } from "../modules/videoManager";
 
@@ -16,6 +17,7 @@ const VideoList = () => {
 
   return (
     <div className="container">
+      <VideoForm/>
       <VideoSearch setVideos ={setVideos}/>
       <div className="row justify-content-center">
         {videos.map((video) => (

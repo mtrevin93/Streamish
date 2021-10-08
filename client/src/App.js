@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
+import ApplicationViews from "./components/ApplicationViews";
 import VideoList from "./components/VideoList";
 
 function App() {
   return (
     <div className="App">
-      <VideoList />
+      <ApplicationViews />
     </div>
   );
 }
